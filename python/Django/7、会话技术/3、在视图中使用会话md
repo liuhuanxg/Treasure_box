@@ -1,0 +1,51 @@
+## 在视图中使用会话
+
+当`SessionMiddleware`被激活时，每个[`HttpRequest`](https://docs.djangoproject.com/zh-hans/2.1/ref/request-response/#django.http.HttpRequest) 对象-的第一个参数的任何Django的视图函数-将有一个 `session`属性，它是一个类似于字典的对象。
+
+可以使用`request.session`在视图中的任何位置阅读和写入。并且可以对其进行多次编辑。
+
+*类*`backends.base.``SessionBase`[¶](https://docs.djangoproject.com/zh-hans/2.1/topics/http/sessions/#django.contrib.sessions.backends.base.SessionBase)是所有会话对象的基类。它具有以下标准词典方法：
+
+1. #### `__getitem__`（*键*）
+
+    例： `fav_color = request.session['fav_color']`
+
+2. #### `__setitem__`（*key*，*value*）
+
+    例： `request.session['fav_color'] = 'blue'`
+
+3. #### `__delitem__`(*key*)
+
+    例： `del request.session['fav_color']`
+
+    如果该key不存在时，会抛出一个KeyError异常。
+
+4. #### `__contains__`(*key*)
+
+    例: `'fav_color' in request.session`
+
+5. #### `get`(*key*, *default=None*)
+
+    例: `fav_color = request.session.get('fav_color','red')`
+
+6. #### `pop`(*key*, *default=__not_given*)
+
+    例: `fav_color = request.session.pop('fav_color','blue')`
+
+7. #### keys()
+
+    获取所有的key。
+
+8. #### items()
+
+    获取所有的数据。
+
+9. #### setdefault()
+
+10. #### clear()
+
+11. #### flush()
+
+     从会话中删除当前会话数据并删除会话cookie和数据表中的session。如果要确保用户不能再次从浏览器访问先前的会话数据，则使用此 方法。
+
+     
