@@ -73,5 +73,3 @@ def users(request):
         path('teachers/', csrf_exempt(TeachersView.as_view()), name="teachers"),
     ]
     ```
-
-5. asd
