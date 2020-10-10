@@ -18,3 +18,59 @@ MongoDB在bin目录中提供了一系列有用的工具这些工具提供了Mong
 | mongos       | 分片路由。如果使用了sharding功能，则应用程序连接的是mongos而不会mongod |
 | mongo        | 客户端命令行工具，支持js语法                                 |
 
+配置数据库用户名和密码：
+
+要为数据库创建用户，必须先切换到相应的数据库
+
+```
+#先切换
+use 数据库名；
+
+#再创建
+db.createUser({})
+```
+
+### 设置 admin（给admin这个库在设置密码）
+
+```
+use.admin  
+db.createUser({
+  user: 'admin',  // 用户名
+  pwd: '123456',  // 密码
+  roles:[{
+    role: 'root',  // 角色
+    db: 'admin'  // 数据库
+  }]
+})
+```
+
+查看用户是否设置成功：
+
+```
+> show users
+{
+        "_id" : "admin.admin",
+        "user" : "admin",
+        "db" : "admin",
+        "roles" : [
+                {
+                        "role" : "root",
+                        "db" : "admin"
+                }
+        ]
+}
+>
+```
+
+
+
+```
+show users  // 查看当前库下的用户
+
+db.dropUser('testadmin')  // 删除用户
+
+db.updateUser('admin', {pwd: '654321'})  // 修改用户密码
+
+db.auth('admin', '654321')  // 密码认证
+```
+
