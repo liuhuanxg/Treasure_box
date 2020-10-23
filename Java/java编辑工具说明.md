@@ -19,7 +19,7 @@
 	* NetBeans
 	* JBuilder
 
-   1.3、myeclipse快捷键：
+   1.3、eclipse快捷键：
 	Ctrl+1 快速修复(最经典的快捷键,就不用多说了)
 	Ctrl+D: 删除当前行
 	Ctrl+Alt+↓ 复制当前行到下一行(复制增加)
