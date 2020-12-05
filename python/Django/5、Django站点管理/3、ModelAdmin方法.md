@@ -8,7 +8,7 @@
     class GoodsInfoAdmin(admin.ModelAdmin):
     	def save_model(self, request, obj, form, change):   	
         	obj.seller=request.user   
-    	super(GoodsInfoAdmin, self).save_model(request, obj, form, change)
+    		super(GoodsInfoAdmin, self).save_model(request, obj, form, change)
     ```
 
 2. **delete_model**
@@ -129,6 +129,22 @@
             return super().formfield_for_choice_field(db_field, request, **kwargs)
     ```
 
-10. 待续。。。
+10. get_queryset
+
+    返回特定的数据
+
+    ```python
+    @admin.register(Orders)
+    class OrdersAdmin(admin.ModelAdmin):
+    	def get_queryset(self, request):
+    		qs = super(OrdersAdmin, self).get_queryset(request)
+    		if request.user.is_superuser:
+    			return qs
+    		return qs.filter(seller=request.user.id)
+    ```
+
+    
+
+11. 待续
 
 

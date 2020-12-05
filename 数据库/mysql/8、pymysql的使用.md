@@ -72,44 +72,52 @@
 
     ```python
     import pymysql
+    import traceback
+    
+    
     class MySql():
-    	def __init__(self, host, user, password, database):
+        def __init__(self, host, user, password, database):
             self.host = host
             self.user = user
             self.password = password
             self.database = database
             self.cursorclass = pymysql.cursors.DictCursor
             # self.port=3306
-        def connet(self):
-            self.db = pymysql.connect(
-                self.host, self.user, self.password, self.database)
-            self.cursor = self.db.cursor()
-        def close(self):
-            self.cursor.close()
-            self.db.close()
+            self.connect()
     
+        def connect(self):
+            self.db = pymysql.connect(
+                self.host, self.user, self.password, self.database, cursorclass=self.cursorclass)
+            self.cursor = self.db.cursor()
+    
+        def create(self, sql):
+            self.db_edit(sql)
+    
+        def drop(self, sql):
+            self.db_edit(sql)
+        
+        def db_edit(self,sql):
+            try:
+                self.cursor.execute(sql)
+            except BaseException:
+                raise traceback.format_stack()
+        
         def get_one(self, sql):
             res = None
             try:
-                self.connet()
                 self.cursor.execute(sql)
                 res = self.cursor.fetchone()
-                self.close()
             except BaseException as e:
-                print("get_one",e)
-                print('查询失败。')
+                print("get_one", e)
             return res
-            
+    
         def get_all(self, sql):
             res = ()
             try:
-                self.connet()
                 self.cursor.execute(sql)
                 res = self.cursor.fetchall()
-                self.close()
             except BaseException as e:
-                print("get_all:",e)
-                print('查询失败。')
+                print("get_all:", e)
             return res
     
         def insert(self, sql):
@@ -124,16 +132,18 @@
         def __edit(self, sql):
             count = 0
             try:
-                self.connet()
                 count = self.cursor.execute(sql)
                 self.db.commit()
-                self.close()
             except BaseException:
                 print('事务提交失败。')
                 self.db.rollback()
             return count
-    ```
-
     
-
+        def __del__(self):
+            self.cursor.close()
+            self.db.close()
+    
+    ```
+    
+    
     
