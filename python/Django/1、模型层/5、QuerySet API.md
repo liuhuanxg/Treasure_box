@@ -119,7 +119,7 @@ QuerySet可以构造、过滤、切片、和大致的结果而不实际访问数
     #<QuerySet [{'entry__authors': 1, 'entries': 33}]>
     ```
 
-8. **value_list**
+8. **values_list**
 
     类似于values，但是返回元组形式的数据，每个元组包含来自传递到values_list()中调用的相应字段或表达式的值。
 
